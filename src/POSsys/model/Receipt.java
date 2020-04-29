@@ -26,15 +26,15 @@ public class Receipt {
      * denna metod printar ut informationen som ska vara på kvittot som pris, datum osv
      */
 	
-	public void printReceipt() {
-		System.out.println("Receipt \n" 
-				+ "Store: " + store.getName() + " " + store.getAddress() + "\n" +
-				"Date: " + purchaseTime.date + "\n" +
-				"Shopping Cart: " + Arrays.toString(shoppingCart) + "\n" + "Quantity: " + Arrays.toString(quantityCart) + "\n" +
-				"Price and vat-rate: " + totalPriceOfItems + " " + VATrate + "%\n" +
-				"Payment and change: " + pay + " " + change);
-		return; //outside of function
-	}
+	public String printReceipt() {
+        	String output = ("Receipt \n" 
+                + "Store: " + store.getName() + " " + store.getAddress() + "\n" +
+                "Date: " + purchaseTime.date + "\n" +
+                "Shopping Cart: " + Arrays.toString(shoppingCart) + "\n" + "Quantity: " + Arrays.toString(quantityCart) + "\n" +
+                "Price and vat-rate: " + totalPriceOfItems + " " + VATrate + "%\n" +
+                "Payment and change: " + pay + " " + change);
+        return output; //outside of function
+    	}
 
 	public Receipt(Store store, PurchaseTime purchaseTime, String[] shoppingCart, int[] quantityCart, double totalPriceOfItems, double VATrate, double pay, double change) {
 		this.store = store;
