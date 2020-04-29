@@ -81,10 +81,6 @@ public class CurrentPurchase {
 			quantityCart[index] += quantity;
 			index++;
 		}
-		else
-		{
-			System.out.println("out of shopping cart space!");
-		}
 		return;
 	}
 }
