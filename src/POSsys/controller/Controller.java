@@ -97,16 +97,16 @@ public class Controller {
 	* @param currency
 	*/
 
-	public void payment(double pay, String typeOfPayment, String currency) {
+	public String payment(double pay, String typeOfPayment, String currency) {
 		purchaseTime = new PurchaseTime();
 		currentPurchase.sendSaleInformation(saleLogDTO);
 		register.increaseAmountPresentInRegisterWithAmountPaid(pay);
 		double change = register.calculateChange(pay, totalPrice);
 		receipt = new Receipt(store, purTime, shoppingCart, quantityCart, totalPrice, VATrate, pay, change);
 		saleLogDTO = saleLogDTO.saleLog(pay, typeOfPayment, totalPrice, POS, discount, shoppingCart, quantityCart, purchaseTime, store, currency, VATrate);
-		receipt.printReceipt();
-		return;
-	}
+		String output = receipt.printReceipt();
+		return output;
+   	 }
 
 	/** Kollar om varan finns, hämtar den, lägger till den i kundvagnen samt uppdaterar lagret (item registry).
 	* @author Henrik
