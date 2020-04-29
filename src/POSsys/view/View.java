@@ -55,7 +55,7 @@ public class View {
 		String typeOfPayment = scan.next();
 		System.out.println("input currency type");
 		String currency = scan.next();
-		controller.payment(pay, typeOfPayment, currency);
+		System.out.println(controller.payment(pay, typeOfPayment, currency));
 		System.out.println("processing of payment completed and logged in the system!");
 		return;
 	}
