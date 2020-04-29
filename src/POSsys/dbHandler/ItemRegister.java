@@ -13,7 +13,7 @@ public class ItemRegister {
 	private int[] priceCart = {10, 100, 50, 25, 5};
 	
 	/**
-     * får in namnet för en vara och hur många kunden vill ha och räknar ut dess pris
+     * fÃ¥r in namnet fÃ¶r en vara och hur mÃ¥nga kunden vill ha och rÃ¤knar ut dess pris
      * @param itemIdentifier
      * @param quantity
      * @return totalPrice
@@ -25,7 +25,6 @@ public class ItemRegister {
 		{
 			if(itemIdentifier.equals(shoppingCart[i])) {
 				quantityCart[i] -= quantity;
-				if(quantityCart[i] < 0) {System.out.println("error, out of stock!");}
 				totalPrice += priceCart[i] * quantity;
 			}
 		}
@@ -38,7 +37,7 @@ public class ItemRegister {
 	}
 
 	/**
-     * kollar om itemIdentifier är i shoppingCart arrayen och returnar ett boolean värde
+     * kollar om itemIdentifier Ã¤r i shoppingCart arrayen och returnar ett boolean vÃ¤rde
      * @param itemIdentifier
      * @return true / false
      */
