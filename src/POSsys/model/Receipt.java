@@ -23,14 +23,14 @@ public class Receipt {
 	private double change;
 
 	/**
-     * denna metod printar ut informationen som ska vara på kvittot som pris, datum osv
+     * denna metod printar ut informationen som ska vara pÃ¥ kvittot som pris, datum osv
      */
 	
 	public void printReceipt() {
 		System.out.println("Receipt \n" 
 				+ "Store: " + store.getName() + " " + store.getAddress() + "\n" +
 				"Date: " + purchaseTime.date + "\n" +
-				"shopping cart: " + Arrays.toString(shoppingCart) + " " + Arrays.toString(quantityCart) + "\n" +
+				"shopping cart: " + Arrays.toString(shoppingCart) + "\n" + Arrays.toString(quantityCart) + "\n" +
 				"Price and vat-rate: " + totalPriceOfItems + " " + VATrate + "%\n" +
 				"Payment and change: " + pay + " " + change);
 		return; //outside of function
