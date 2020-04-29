@@ -30,7 +30,7 @@ public class Receipt {
 		System.out.println("Receipt \n" 
 				+ "Store: " + store.getName() + " " + store.getAddress() + "\n" +
 				"Date: " + purchaseTime.date + "\n" +
-				"shopping cart: " + Arrays.toString(shoppingCart) + "Quantity: \n" + Arrays.toString(quantityCart) + "\n" +
+				"Shopping Cart: " + Arrays.toString(shoppingCart) + "\n" + "Quantity: " + Arrays.toString(quantityCart) + "\n" +
 				"Price and vat-rate: " + totalPriceOfItems + " " + VATrate + "%\n" +
 				"Payment and change: " + pay + " " + change);
 		return; //outside of function
