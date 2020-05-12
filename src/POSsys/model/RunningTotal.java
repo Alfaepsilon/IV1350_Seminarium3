@@ -3,7 +3,7 @@ package POSsys.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import POSsys.view.RevenueObserver;
+import POSsys.model.RevenueObserver;
 
 public class RunningTotal {
     private double runningTotal = 0;

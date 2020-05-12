@@ -46,9 +46,9 @@ public class View {
 			{
 				controller.scanItem(itemIdentifier, quantity);
 			}
-			catch(Exception e)
+			catch(Exception OperationFailedException)
 			{
-				ErrorMessageHandler.showErrorMsg(e.getMessage());
+				ErrorMessageHandler.showErrorMsg(OperationFailedException.getMessage());
 			}
 			index--;
 		}

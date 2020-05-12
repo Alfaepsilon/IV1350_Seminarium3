@@ -1,5 +1,7 @@
 package POSsys.view;
 
+import POSsys.model.RevenueObserver;
+
 public class TotalRevenueView implements RevenueObserver {
 	/**
 	 * Prints the runningTotal to the screen by calling printCurrentState

@@ -18,7 +18,7 @@ import POSsys.model.Customer;
 import POSsys.model.Receipt;
 import POSsys.model.RunningTotal;
 import POSsys.model.SaleLogDTO;
-import POSsys.view.RevenueObserver;
+import POSsys.model.RevenueObserver;
 import POSsys.view.TotalRevenueView;
 import POSsys.dbHandler.Discount;
 import POSsys.model.Item;
@@ -99,7 +99,7 @@ public class Controller {
 	*/
 
 	public void newSale() {
-	  currentPurchase	= new CurrentPurchase();
+	  currentPurchase = new CurrentPurchase();
 		store = store.getStoreInformation();
 	}
 
@@ -134,8 +134,8 @@ public class Controller {
 		boolean itemStatus = false;
 		try {
 			itemStatus = itemReg.checkItemStatus(itemIdentifier);
-		} catch (Exception e) {
-			throw e;
+		} catch (Exception OperationFailedException) {
+			throw OperationFailedException;
 		}
 		if (itemStatus){
 			currentPurchase.addToShoppingCart(itemIdentifier, quantity);
@@ -170,7 +170,7 @@ public class Controller {
 	}
 	
 	
-	/** Lägger till en ny revenueObserver till revenueObservers arrayen i controller
+	/** Lï¿½gger till en ny revenueObserver till revenueObservers arrayen i controller
 	* @author Amiran
 	* @param revenueOb
 	*/
