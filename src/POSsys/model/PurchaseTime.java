@@ -4,13 +4,11 @@ import java.util.Date;
 
 public class PurchaseTime {
 
-	java.util.Date date = new java.util.Date();  
+	java.util.Date date = new java.util.Date();
 
-	public PurchaseTime PurchaseTime() {
-		PurchaseTime obj = new PurchaseTime();
-		return obj;
+	public PurchaseTime() {
 	}
-	
+
 	public Date getDate()
 	{
 		return date;

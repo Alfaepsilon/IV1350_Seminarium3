@@ -18,9 +18,7 @@ public class SaleLogDTO {
 
 	private Discount discount;
 
-	private String[] shoppingCart = new String[50];
-	
-	private int[] quantityCart = new int[50];
+	private Item[] shoppingCart = new Item[50];
 
 	private PurchaseTime timeOfPurchase;
 
@@ -30,21 +28,18 @@ public class SaleLogDTO {
 
 	private double VATrate;
 
-	public SaleLogDTO saleLog(double pay, String typeOfPayment, double totalPrice, PointOfSale POS, Discount discount, String[] shoppingCart, int[] quantityCart, PurchaseTime timeOfPurchase, Store store, String currency, double VATrate) {
-		SaleLogDTO obj = new SaleLogDTO();
-		obj.pay = pay;
-		obj.typeOfPayment = typeOfPayment;
-		obj.totalPrice = totalPrice;
-		obj.change = change;
-		obj.POS = POS;
-		obj.discount = discount;
-		obj.shoppingCart = shoppingCart;
-		obj.quantityCart = quantityCart;
-		obj.timeOfPurchase = timeOfPurchase;
-		obj.store = store;
-		obj.currency = currency;
-		obj.VATrate = VATrate;
-		return obj;
+	public SaleLogDTO(double pay, String typeOfPayment, double totalPrice, PointOfSale POS, Discount discount, Item[] shoppingCart, PurchaseTime timeOfPurchase, Store store, String currency, double VATrate) {
+		this.pay = pay;
+		this.typeOfPayment = typeOfPayment;
+		this.totalPrice = totalPrice;
+		this.change = change;
+		this.POS = POS;
+		this.discount = discount;
+		this.shoppingCart = shoppingCart;
+		this.timeOfPurchase = timeOfPurchase;
+		this.store = store;
+		this.currency = currency;
+		this.VATrate = VATrate;
 	}
 
 }

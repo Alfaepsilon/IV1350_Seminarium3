@@ -6,10 +6,8 @@ public class Discount {
 
 	private String customerId;
 
-	public Discount Discount(String customerId) {
-		Discount obj = new Discount();
-		obj.customerId = customerId;
-		return obj;
+	public Discount(String customerId) {
+		this.customerId = customerId;
 	}
 
 	public boolean checkDiscountValidity(String customerId) {
@@ -17,11 +15,11 @@ public class Discount {
 	}
 
 	/**
-     * denna metod multiplicerar price med rabatt värdet och returnerar det
+     * denna metod multiplicerar price med rabatt vï¿½rdet och returnerar det
      * @param price
      * @return price
      */
-	
+
 	public double priceAfterDiscount(double price) {
 		price *= discountAmount;
 		return price; //checks database

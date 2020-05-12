@@ -1,17 +1,27 @@
 package POSsys.controller;
 
 import POSsys.model.PurchaseTime;
+
 import POSsys.dbHandler.Store;
 import POSsys.dbHandler.PointOfSale;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import POSsys.dbHandler.AccountingSystem;
 import POSsys.dbHandler.InventorySystem;
+import POSsys.dbHandler.ItemNotFoundException;
 import POSsys.dbHandler.ItemRegister;
 import POSsys.dbHandler.CashRegister;
 import POSsys.model.CurrentPurchase;
 import POSsys.model.Customer;
 import POSsys.model.Receipt;
+import POSsys.model.RunningTotal;
 import POSsys.model.SaleLogDTO;
+import POSsys.view.RevenueObserver;
+import POSsys.view.TotalRevenueView;
 import POSsys.dbHandler.Discount;
+import POSsys.model.Item;
 /**
  *Den klass som delar upp alla "requests" till rätt funktioner.
  * @author Henri
@@ -30,7 +40,7 @@ public class Controller {
 
 	private CashRegister register = new CashRegister();
 
-	private CurrentPurchase currentPurchase = new CurrentPurchase();
+	private CurrentPurchase currentPurchase;
 
 	private ItemRegister itemRegister;
 
@@ -42,11 +52,11 @@ public class Controller {
 
 	private Store store = new Store();
 
-	private Discount discount = new Discount();
+	private Discount discount;
 
 	private PointOfSale pointOfSale;
 
-	private SaleLogDTO saleLogDTO = new SaleLogDTO();
+	private SaleLogDTO saleLogDTO;
 
 	private PurchaseTime purchaseTime;
 
@@ -55,20 +65,14 @@ public class Controller {
 	private double totalPrice;
 
 	private double VATrate;
+	
+	private RunningTotal runningTotal = new RunningTotal();
+	
+	private List<RevenueObserver> revenueObservers =
+			 new ArrayList<>();
 
-	private String[] shoppingCart = new String[50];
+	private Item[] shoppingCart = new Item[50];
 
-	private int[] quantityCart = new int[50];
-
-	/** Denna funktion sätter information för POS och affären.
-	* @author Henrik*
-	*/
-
-	public void newSale() {
-		currentPurchase = currentPurchase.CurrentPurchase();
-		store = store.getStoreInformation();
-		return;
-	}
 
 	/**Konstruktorn för controller
 	* @author Henrik
@@ -90,6 +94,15 @@ public class Controller {
 		return;
 	}
 
+	/** Denna funktion sätter information för POS och affären.
+	* @author Henrik
+	*/
+
+	public void newSale() {
+	  currentPurchase	= new CurrentPurchase();
+		store = store.getStoreInformation();
+	}
+
 	/**Denna funktion loggar köpet, skickar datan till en databas i form av en DTO, ökar värdet i kassan samt räknar ut växeln.
 	* @author Henrik
 	* @param pay
@@ -101,10 +114,12 @@ public class Controller {
 		purchaseTime = new PurchaseTime();
 		currentPurchase.sendSaleInformation(saleLogDTO);
 		register.increaseAmountPresentInRegisterWithAmountPaid(pay);
+		runningTotal.getRunningTotal(pay);
 		double change = register.calculateChange(pay, totalPrice);
-		receipt = new Receipt(store, purTime, shoppingCart, quantityCart, totalPrice, VATrate, pay, change);
-		saleLogDTO = saleLogDTO.saleLog(pay, typeOfPayment, totalPrice, POS, discount, shoppingCart, quantityCart, purchaseTime, store, currency, VATrate);
+		receipt = new Receipt(store, purTime, shoppingCart, totalPrice, VATrate, pay, change);
+		saleLogDTO = new SaleLogDTO(pay, typeOfPayment, totalPrice, POS, discount, shoppingCart, purchaseTime, store, currency, VATrate);
 		String output = receipt.printReceipt();
+		notifyObservers(pay);
 		return output;
    	 }
 
@@ -112,34 +127,56 @@ public class Controller {
 	* @author Henrik
 	* @param itemIdentifier
 	* @param quantity
+	 * @throws Exception if the database was not found or if the item identifier doesn't match anything in it
 	*/
 
-	public void scanItem(String itemIdentifier, int quantity) {
-		boolean itemStatus = itemReg.checkItemStatus(itemIdentifier);
+	public void scanItem(String itemIdentifier, int quantity) throws Exception {
+		boolean itemStatus = false;
+		try {
+			itemStatus = itemReg.checkItemStatus(itemIdentifier);
+		} catch (Exception e) {
+			throw e;
+		}
 		if (itemStatus){
 			currentPurchase.addToShoppingCart(itemIdentifier, quantity);
-			shoppingCart = currentPurchase.getCart();
-			quantityCart = currentPurchase.getQuantity();
+			shoppingCart = currentPurchase.shoppingCart;
 			itemReg.updateItemRegistry();
-			VATrate = itemReg.getVAT();
+			VATrate = itemReg.VATrate;
 			totalPrice += itemReg.getPrice(itemIdentifier, quantity) * VATrate;
 	}
-		else {System.out.println("error: no item available!");}
-		return;
 	}
 
-	/** Skapar ett objekt av typen Discount, kollar om kunden är berättigad en rabatt och beräknar sedan rabatten kunden är berättigad. 
+	/** Skapar ett objekt av typen Discount, kollar om kunden är berättigad en rabatt och beräknar sedan rabatten kunden är berättigad.
 	* @author Henrik
 	* @param customerId
 	*/
 
 	public void discountRequest(String customerId) {
-		discount = discount.Discount(customerId);
+		discount = new Discount(customerId);
 		boolean discountViability = discount.checkDiscountValidity(customerId);
 		if(discountViability){totalPrice = discount.priceAfterDiscount(totalPrice);}
-		else {System.out.println("discount not available!");}
 		currentPurchase.sendSaleInformation(saleLogDTO);
-		return;
 	}
-
+	
+	
+	/** Notiferar varje revenueObserver om att det finns en ny pay
+	* @author Amiran
+	* @param pay
+	*/
+	private void notifyObservers(double pay) {
+		 for (RevenueObserver revenueOb : revenueObservers) {
+		 revenueOb.newRunningTotal(pay);
+		 }
+	}
+	
+	
+	/** L�gger till en ny revenueObserver till revenueObservers arrayen i controller
+	* @author Amiran
+	* @param revenueOb
+	*/
+	public void addRevenueObserver(RevenueObserver revenueOb) {
+		 revenueObservers.add(revenueOb);
+	}
 }
+
+

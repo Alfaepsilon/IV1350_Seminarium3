@@ -6,9 +6,7 @@ public class Store {
 
 	private String storeAddress;
 
-	public Store Store() {
-		Store obj = new Store();
-		return obj;
+	public Store() {
 	}
 
 	public Store getStoreInformation() {
@@ -17,12 +15,12 @@ public class Store {
 		obj.storeAddress = "washington";
 		return obj; //uses database
 	}
-	
+
 	public String getName()
 	{
 		return storeName;
 	}
-	
+
 	public String getAddress()
 	{
 		return storeAddress;

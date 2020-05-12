@@ -26,6 +26,7 @@ public class View {
 */
 	public View(Controller contr) {
 		this.controller = contr;
+		contr.addRevenueObserver(new TotalRevenueView());
 	}
 /**Den funktion Main kallar på för att starta programmet. Det är också här all kod i View körs.
 * @author Henrik
@@ -41,7 +42,14 @@ public class View {
 		{
 			String itemIdentifier = scan.next();
 			int quantity = scan.nextInt();
-			controller.scanItem(itemIdentifier, quantity);
+			try
+			{
+				controller.scanItem(itemIdentifier, quantity);
+			}
+			catch(Exception e)
+			{
+				ErrorMessageHandler.showErrorMsg(e.getMessage());
+			}
 			index--;
 		}
 		System.out.println("input customer id");
@@ -57,7 +65,6 @@ public class View {
 		String currency = scan.next();
 		System.out.println(controller.payment(pay, typeOfPayment, currency));
 		System.out.println("processing of payment completed and logged in the system!");
-		return;
 	}
 
 }

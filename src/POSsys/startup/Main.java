@@ -30,7 +30,6 @@ public class Main {
 		Controller controller = new Controller(store, pointOfSale, accountingSystem, inventorySystem, itemRegister, cashRegister);
 		View view = new View(controller);
 		view.start();
-		return;
 	}
 
 }

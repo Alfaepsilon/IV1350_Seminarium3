@@ -7,6 +7,7 @@ import POSsys.dbHandler.PointOfSale;
 import POSsys.dbHandler.Discount;
 import POSsys.dbHandler.Store;
 import POSsys.model.SaleLogDTO;
+import POSsys.model.Item;
 /** Denna klass representerar ett pågående köp
 * @author Henrik
 */
@@ -14,23 +15,20 @@ public class CurrentPurchase {
 
 	private int totalPriceOfItems;
 
-	private String[] shoppingCart = new String[50];
-
-	private int[] quantityCart = new int[50];
+	public Item[] shoppingCart = new Item[50];
 
 	private int index = 0;
 
 	private InventorySystem inventorySystem = new InventorySystem();
 
 	private AccountingSystem accountingSystem = new AccountingSystem();
+	
+	private ItemRegister itemRegister = new ItemRegister();
 
 /** Konstruktorn för CurrentPurchase
 * @author Henrik
-* @return obj
 */
-	public CurrentPurchase CurrentPurchase() {
-		CurrentPurchase obj = new CurrentPurchase();
-		return obj;
+	public CurrentPurchase() {
 	}
 /** Skickar all information om köpet till accountingSystem och inventorySystem
 * @author Henrik
@@ -40,22 +38,13 @@ public class CurrentPurchase {
 	{
 		accountingSystem.sendSaleInformation(obj);
 		inventorySystem.sendSaleInformation(obj);
-		return;
 	}
-/** Returnerar kundvagnen
-* @author Henrik
-*/
-	public String[] getCart()
-	{
-		return shoppingCart;
-	}
+
 /** Returnerar antalet av varorna
 * @author Henrik
 */
-	public int[] getQuantity()
-	{
-		return quantityCart;
-	}
+
+
 /** Sätter priset för hela köpet
 * @author Henrik
 */
@@ -73,14 +62,13 @@ public class CurrentPurchase {
 	public void addToShoppingCart(String itemName, int quantity) {
 		for(int i = 0; i > shoppingCart.length; i++)
 		{
-			if(shoppingCart[i] == itemName) {quantityCart[i] += quantity; return;}
+			if(shoppingCart[i].itemIdentifier == itemName) {shoppingCart[i].quantity += quantity;}
 		}
 		if(index < shoppingCart.length)
 		{
-			shoppingCart[index] = itemName;
-			quantityCart[index] += quantity;
+			shoppingCart[index] = itemRegister.createItem(itemName, quantity);
 			index++;
 		}
-		return;
 	}
 }
+

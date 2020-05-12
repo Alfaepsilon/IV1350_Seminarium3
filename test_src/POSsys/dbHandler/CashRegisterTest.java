@@ -9,23 +9,21 @@ class CashRegisterTest {
 
 	private CashRegister register;
 	boolean result;
-
+	
 	/**
-	@author Amiran
-     * skapar en ny CashRegister och sï¿½tter result till false fï¿½r varje test
+     * skapar en ny CashRegister och sätter result till false för varje test
      */
-
+	
 	@BeforeEach
 	void setUp() throws Exception {
 		register = new CashRegister();
 		result = false;
 	}
-
+	
 	/**
-	@author Amiran
-     * testar funktionen som ï¿½kar register vï¿½rdet med ett normalt vï¿½rde som 10
+     * testar funktionen som ökar register värdet med ett normalt värde som 10
      */
-
+	
 	@Test
 	void increaseAmountNormalValuesTest() {
 		int testVal = 10;
@@ -37,12 +35,11 @@ class CashRegisterTest {
 		}
 		assertEquals(true, result, "values test normally");
 	}
-
+	
 	/**
-	@author Amiran
-     * testar funktionen som ï¿½kar register vï¿½rdet med olika vï¿½rden, en positiv och en negativ
+     * testar funktionen som ökar register värdet med olika värden, en positiv och en negativ
      */
-
+	
 	@Test
 	void increaseAmountDifferentNormalValuesTest() {
 		int testVal = 10;
@@ -55,12 +52,11 @@ class CashRegisterTest {
 		}
 		assertEquals(true, result, "values test normally");
 	}
-
+	
 	/**
-	@author Amiran
-     * testar funktionen som ï¿½kar register vï¿½rdet med bara negativa vï¿½rden
+     * testar funktionen som ökar register värdet med bara negativa värden
      */
-
+	
 	@Test
 	void increaseAmountNegativeValuesTest() {
 		int testVal = -10;
@@ -72,12 +68,11 @@ class CashRegisterTest {
 		}
 		assertEquals(true, result, "values test normally");
 	}
-
+	
 	/**
-	@author Amiran
-     * testar funktionen som ï¿½kar register vï¿½rdet med nollor
+     * testar funktionen som ökar register värdet med nollor
      */
-
+	
 	@Test
 	void increaseAmountZeroValuesTest() {
 		int testVal = 0;
@@ -89,12 +84,11 @@ class CashRegisterTest {
 		}
 		assertEquals(true, result, "values test normally");
 	}
-
+	
 	/**
-	@author Amiran
-     * testar calculateChange funktionen med tvï¿½ positiva vï¿½rden
+     * testar calculateChange funktionen med två positiva värden
      */
-
+	
 	@Test
 	void calculateChangeTest() {
 		int testVal = 5;
@@ -105,12 +99,11 @@ class CashRegisterTest {
 		}
 		assertEquals(true, result, "values test normally");
 	}
-
+	
 	/**
-	@author Amiran
-     * testar calculateChange funktionen med tvï¿½ negativa vï¿½rden
+     * testar calculateChange funktionen med två negativa värden
      */
-
+	
 	@Test
 	void calculateChangeNegTest() {
 		int testVal = -5;
@@ -121,12 +114,11 @@ class CashRegisterTest {
 		}
 		assertEquals(true, result, "values test normally");
 	}
-
+	
 	/**
-	@author Amiran
-     * testar calculateChange funktionen med tvï¿½ olika vï¿½rden, positiv och negativ
+     * testar calculateChange funktionen med två olika värden, positiv och negativ
      */
-
+	
 	@Test
 	void calculateChangeDiffTest() {
 		int testVal = 5;
@@ -137,12 +129,11 @@ class CashRegisterTest {
 		}
 		assertEquals(true, result, "values test normally");
 	}
-
+	
 	/**
-	@author Amiran
      * testar calculateChange funktionen med nollor
      */
-
+	
 	@Test
 	void calculateChangeZeroTest() {
 		int testVal = 0;
