@@ -12,7 +12,7 @@ public class CashRegister {
 			 new ArrayList<>();
 
 	 /**
-     * Denna metod �kar hur mycket pengar som finns i amount variabeln i cashRegister med pay
+     * Denna metod ï¿½kar hur mycket pengar som finns i amount variabeln i cashRegister med pay
      * @param pay
      */
 
@@ -34,13 +34,14 @@ public class CashRegister {
 
 	public double calculateChange(double pay, double totalPrice)
 	{
-		if(pay - totalPrice >= 0)
-		{
-			amountPresentInRegister -= (pay - totalPrice);
-			return pay - totalPrice;
-		}
-		notifyObservers();
-		return 0;
+		double change = 0;
+        	if(pay - totalPrice >= 0)
+        	{
+           	 amountPresentInRegister -= (pay - totalPrice);
+           	 change = pay - totalPrice;
+      	       }
+        	notifyObservers();
+        	return change;
 	}
 
 	public CashRegister() {
@@ -57,7 +58,7 @@ public class CashRegister {
 	}
 	
 	
-	/** L�gger till en ny revenueObserver till revenueObservers arrayen i cashregister
+	/** Lägger till en ny revenueObserver till revenueObservers arrayen i cashregister
 	* @author Amiran
 	* @param revenueObservers2
 	*/
