@@ -3,8 +3,6 @@ package POSsys.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import POSsys.model.RevenueObserver;
-
 public class RunningTotal {
     private double runningTotal = 0;
     private List<RevenueObserver> revenueObservers = new ArrayList<>();
