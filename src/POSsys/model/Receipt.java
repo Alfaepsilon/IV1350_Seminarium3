@@ -51,6 +51,8 @@ public class Receipt {
 		this.shoppingCart = shoppingCart;
 		this.totalPriceOfItems = totalPriceOfItems;
 		this.VATrate = VATrate;
+		this.VATrate -= 1;
+		this.VATrate *= 100;
 		this.pay = pay;
 		this.change = change;
 	}

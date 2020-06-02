@@ -16,9 +16,9 @@ import POSsys.dbHandler.CashRegister;
 import POSsys.model.CurrentPurchase;
 import POSsys.model.Customer;
 import POSsys.model.Receipt;
+import POSsys.model.RevenueObserver;
 import POSsys.model.RunningTotal;
 import POSsys.model.SaleLogDTO;
-import POSsys.model.RevenueObserver;
 import POSsys.view.TotalRevenueView;
 import POSsys.dbHandler.Discount;
 import POSsys.model.Item;
@@ -99,7 +99,7 @@ public class Controller {
 	*/
 
 	public void newSale() {
-	  currentPurchase = new CurrentPurchase();
+	  currentPurchase	= new CurrentPurchase();
 		store = store.getStoreInformation();
 	}
 
@@ -115,11 +115,11 @@ public class Controller {
 		currentPurchase.sendSaleInformation(saleLogDTO);
 		register.increaseAmountPresentInRegisterWithAmountPaid(pay);
 		runningTotal.getRunningTotal(pay);
+		register.addRevenueObserver(revenueObservers);
 		double change = register.calculateChange(pay, totalPrice);
 		receipt = new Receipt(store, purTime, shoppingCart, totalPrice, VATrate, pay, change);
 		saleLogDTO = new SaleLogDTO(pay, typeOfPayment, totalPrice, POS, discount, shoppingCart, purchaseTime, store, currency, VATrate);
 		String output = receipt.printReceipt();
-		notifyObservers(pay);
 		return output;
    	 }
 
@@ -134,8 +134,8 @@ public class Controller {
 		boolean itemStatus = false;
 		try {
 			itemStatus = itemReg.checkItemStatus(itemIdentifier);
-		} catch (Exception OperationFailedException) {
-			throw OperationFailedException;
+		} catch (Exception e) {
+			throw e;
 		}
 		if (itemStatus){
 			currentPurchase.addToShoppingCart(itemIdentifier, quantity);
@@ -159,24 +159,14 @@ public class Controller {
 	}
 	
 	
-	/** Notiferar varje revenueObserver om att det finns en ny pay
-	* @author Amiran
-	* @param pay
-	*/
-	private void notifyObservers(double pay) {
-		 for (RevenueObserver revenueOb : revenueObservers) {
-		 revenueOb.newRunningTotal(pay);
-		 }
-	}
-	
-	
-	/** Lï¿½gger till en ny revenueObserver till revenueObservers arrayen i controller
+	/** Lägger till en ny revenueObserver till revenueObservers arrayen i controller
 	* @author Amiran
 	* @param revenueOb
 	*/
 	public void addRevenueObserver(RevenueObserver revenueOb) {
 		 revenueObservers.add(revenueOb);
 	}
+	
 }
 
 
